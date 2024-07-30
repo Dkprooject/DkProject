@@ -88,7 +88,7 @@ rve
         echo "Build failed"
     else
         echo "Build succesful"
-        cp out/arch/arm64/boot/Image.gz-dtb out/RvKernel/SE_OC/Image.gz-dtb
+        cp out/arch/arm64/boot/Image.gz-dtb out/HvKernel/SE_OC/Image.gz-dtb
     fi
 }
 
