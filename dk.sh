@@ -9,10 +9,10 @@ rm -rf compile.log
 #
 mkdir -p out
 mkdir out/DkKernel
-mkdir out/DkKernel/NSE_OC
-mkdir out/DkKernel/NSE_Stock
-mkdir out/DkKernel/SE_OC
-mkdir out/DkKernel/SE_Stock
+mkdir out/DkKernel/NSE_OC1
+mkdir out/DkKernel/NSE_OC2
+mkdir out/DkKernel/SE_OC1
+mkdir out/DkKernel/SE_OC2
 
 
 
@@ -50,10 +50,11 @@ CROSS_COMPILE=aarch64-linux-gnu- \
 CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 }
 
-nse_oc() {
+nse_oc1() {
 cp DkKernel/NSE/* arch/arm64/boot/dts/qcom/
-cp DkKernel/OC/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
-cp DkKernel/OC/gpucc-sdm845.c drivers/clk/qcom/
+cp DkKernel/OC/800/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/800/gpucc-sdm845.c drivers/clk/qcom/
+cp DkKernel/fw-touch-9.1.24/* firmware/
 rve 2>&1 | tee -a compile.log
     if [ $? -ne 0 ]
     then
@@ -64,10 +65,11 @@ rve 2>&1 | tee -a compile.log
     fi
 }
 
-nse_stock() {
+nse_oc2() {
 cp DkKernel/NSE/* arch/arm64/boot/dts/qcom/
-cp DkKernel/STOCK/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
-cp DkKernel/STOCK/gpucc-sdm845.c drivers/clk/qcom/
+cp DkKernel/OC/835/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/835/gpucc-sdm845.c drivers/clk/qcom/
+cp DkKernel/fw-touch-9.1.24/* firmware/
 rve
     if [ $? -ne 0 ]
     then
@@ -78,10 +80,11 @@ rve
     fi
 }
 
-se_oc() {
+se_oc1() {
 cp DkKernel/SE/* arch/arm64/boot/dts/qcom/
 cp DkKernel/OC/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
 cp DkKernel/OC/gpucc-sdm845.c drivers/clk/qcom/
+cp DkKernel/fw-touch-10.3.7/* firmware/
 rve
     if [ $? -ne 0 ]
     then
@@ -92,10 +95,11 @@ rve
     fi
 }
 
-se_stock() {
+se_oc2() {
 cp DkKernel/SE/* arch/arm64/boot/dts/qcom/
-cp DkKernel/STOCK/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
-cp DkKernel/STOCK/gpucc-sdm845.c drivers/clk/qcom/
+cp DkKernel/OC/800/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/800/gpucc-sdm845.c drivers/clk/qcom/
+cp DkKernel/fw-touch-10.3.7/* firmware/
 rve
     if [ $? -ne 0 ]
     then
@@ -106,10 +110,10 @@ rve
     fi
 }
 
-nse_oc
-nse_stock
-se_oc
-se_stock
+nse_oc1
+nse_oc2
+se_oc1
+se_oc2
 
 END=$(date +"%s")
 DIFF=$(($END - $START))
