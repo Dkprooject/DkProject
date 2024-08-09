@@ -9,15 +9,18 @@ rm -rf compile.log
 #
 mkdir -p out
 mkdir out/DkKernel
-mkdir out/DkKernel/NSE_OC1
-mkdir out/DkKernel/NSE_OC2
-mkdir out/DkKernel/SE_OC1
-mkdir out/DkKernel/SE_OC2
-
+mkdir out/DkKernel/NSE_OC1_old
+mkdir out/DkKernel/NSE_OC1_new
+mkdir out/DkKernel/NSE_OC2_old
+mkdir out/DkKernel/NSE_OC2_new
+mkdir out/DkKernel/SE_OC1_old
+mkdir out/DkKernel/SE_OC1_new
+mkdir out/DkKernel/SE_OC2_old
+mkdir out/DkKernel/SE_OC2_new
 
 
 #
-export KBUILD_BUILD_USER=DK-PROJECT
+export KBUILD_BUILD_USER=DK_PROJECT
 export KBUILD_BUILD_HOST=Bandar-Lampung 
 export PATH="$CLANGDIR/bin:$PATH"
 
@@ -50,22 +53,37 @@ CROSS_COMPILE=aarch64-linux-gnu- \
 CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 }
 
-nse_oc1() {
+NSE_OC1_old() {
 cp DkKernel/NSE/* arch/arm64/boot/dts/qcom/
 cp DkKernel/OC/800/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
 cp DkKernel/OC/800/gpucc-sdm845.c drivers/clk/qcom/
 cp DkKernel/fw-touch-9.1.24/* firmware/
-rve 2>&1 | tee -a compile.log
+rve
     if [ $? -ne 0 ]
     then
         echo "Build failed"
     else
         echo "Build succesful"
-        cp out/arch/arm64/boot/Image.gz-dtb out/DkKernel/NSE_OC/Image.gz-dtb
+        cp out/arch/arm64/boot/Image.gz-dtb out/DkKernel/NSE_OC1_old/Image.gz-dtb
     fi
 }
 
-nse_oc2() {
+NSE_OC1_new() {
+cp DkKernel/NSE/* arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/800/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/800/gpucc-sdm845.c drivers/clk/qcom/
+cp DkKernel/fw-touch-10.3.7/* firmware/
+rve
+    if [ $? -ne 0 ]
+    then
+        echo "Build failed"
+    else
+        echo "Build succesful"
+        cp out/arch/arm64/boot/Image.gz-dtb out/DkKernel/NSE_OC1_new/Image.gz-dtb
+    fi
+}
+
+NSE_OC2_old() {
 cp DkKernel/NSE/* arch/arm64/boot/dts/qcom/
 cp DkKernel/OC/835/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
 cp DkKernel/OC/835/gpucc-sdm845.c drivers/clk/qcom/
@@ -76,14 +94,14 @@ rve
         echo "Build failed"
     else
         echo "Build succesful"
-        cp out/arch/arm64/boot/Image.gz-dtb out/DkKernel/NSE_Stock/Image.gz-dtb
+        cp out/arch/arm64/boot/Image.gz-dtb out/DkKernel/NSE_OC2_old/Image.gz-dtb
     fi
 }
 
-se_oc1() {
-cp DkKernel/SE/* arch/arm64/boot/dts/qcom/
-cp DkKernel/OC/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
-cp DkKernel/OC/gpucc-sdm845.c drivers/clk/qcom/
+NSE_OC2_new() {
+cp DkKernel/NSE/* arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/835/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/835/gpucc-sdm845.c drivers/clk/qcom/
 cp DkKernel/fw-touch-10.3.7/* firmware/
 rve
     if [ $? -ne 0 ]
@@ -91,11 +109,26 @@ rve
         echo "Build failed"
     else
         echo "Build succesful"
-        cp out/arch/arm64/boot/Image.gz-dtb out/DkKernel/SE_OC/Image.gz-dtb
+        cp out/arch/arm64/boot/Image.gz-dtb out/DkKernel/NSE_OC2_new/Image.gz-dtb
     fi
 }
 
-se_oc2() {
+SE_OC1_old() {
+cp DkKernel/SE/* arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/800/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/800/gpucc-sdm845.c drivers/clk/qcom/
+cp DkKernel/fw-touch-9.1.24/* firmware/
+rve
+    if [ $? -ne 0 ]
+    then
+        echo "Build failed"
+    else
+        echo "Build succesful"
+        cp out/arch/arm64/boot/Image.gz-dtb out/DkKernel/SE_OC1_old/Image.gz-dtb
+    fi
+}
+
+SE_OC1_new() {
 cp DkKernel/SE/* arch/arm64/boot/dts/qcom/
 cp DkKernel/OC/800/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
 cp DkKernel/OC/800/gpucc-sdm845.c drivers/clk/qcom/
@@ -106,14 +139,48 @@ rve
         echo "Build failed"
     else
         echo "Build succesful"
-        cp out/arch/arm64/boot/Image.gz-dtb out/DkKernel/SE_Stock/Image.gz-dtb
+        cp out/arch/arm64/boot/Image.gz-dtb out/DkKernel/SE_OC1_new/Image.gz-dtb
     fi
 }
 
-nse_oc1
-nse_oc2
-se_oc1
-se_oc2
+SE_OC2_old() {
+cp DkKernel/SE/* arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/835/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/835/gpucc-sdm845.c drivers/clk/qcom/
+cp DkKernel/fw-touch-9.1.24/* firmware/
+rve
+    if [ $? -ne 0 ]
+    then
+        echo "Build failed"
+    else
+        echo "Build succesful"
+        cp out/arch/arm64/boot/Image.gz-dtb out/DkKernel/SE_OC2_old/Image.gz-dtb
+    fi
+}
+
+SE_OC2_new() {
+cp DkKernel/SE/* arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/835/sdm845-v2.dtsi arch/arm64/boot/dts/qcom/
+cp DkKernel/OC/835/gpucc-sdm845.c drivers/clk/qcom/
+cp DkKernel/fw-touch-10.3.7/* firmware/
+rve
+    if [ $? -ne 0 ]
+    then
+        echo "Build failed"
+    else
+        echo "Build succesful"
+        cp out/arch/arm64/boot/Image.gz-dtb out/DkKernel/SE_OC2_new/Image.gz-dtb
+    fi
+}
+
+NSE_OC1_old
+NSE_OC1_new
+NSE_OC2_old
+NSE_OC2_new
+SE_OC1_old
+SE_OC1_new
+SE_OC2_old
+SE_OC2_new
 
 END=$(date +"%s")
 DIFF=$(($END - $START))
